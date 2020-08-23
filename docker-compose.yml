@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+    redis:
+        container_name: container_redis
+        image: redis:alpine
+        ports:
+            - "6379:6379"
+    php:
+        container_name: container_php
+        build:
+            context: php
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+        links:
+            - redis
+    nginx:
+        container_name: container_nginx
+        build:
+            context: nginx
+            args:
+                MAX_EXECUTION_TIME: ${MAX_EXECUTION_TIME}
+                SERVER_NAME: ${SERVER_NAME}
+        ports:
+            - "80:80"
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+    mysql:
+        container_name: container_mysql
+        image: mysql:5.7
+        volumes:
+            - "./.data/mysql:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - "3306:3306"
+    
+    mongodb:
+        container_name: container_mongodb
+        image: mongo:4.0
+        volumes:
+            - "/.data/mongodb:/data/db"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASS}
+            MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
