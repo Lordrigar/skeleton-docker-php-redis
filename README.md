@@ -1,3 +1,5 @@
+# Docker, redis, mysql, mongo, nginx, php - setup of all containers without actual Symfony app - all prepared for Symfony installation
+
 Once all the containers are up, our services are available at:  
     Symfony app: http://symfony.dev:80  
     Mysql server: symfony.dev:3306  
