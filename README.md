@@ -1,4 +1,6 @@
-# Docker, redis, mysql, mongo, nginx, php - setup of all containers for php app - all prepared for Symfony installation (actually for this one: https://github.com/Lordrigar/symfony-app)
+# This is pretty old stuff, so don't judge!
+
+## Docker, redis, mysql, mongo, nginx, php - setup of all containers for php app - all prepared for Symfony installation (actually for this one: https://github.com/Lordrigar/symfony-app)
 
 Once all the containers are up, our services are available at:  
     Symfony app: http://symfony.dev:80  
